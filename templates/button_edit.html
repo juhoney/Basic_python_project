@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>"hello"</title>
+</head>
+<body>
+    <form method="POST" action="/img">
+        <h1> Flask #2 반가워   </h1>
+        <h2> 반갑다구</h2>
+        <input type="text" name="img_name">
+        <button type="submit">버튼이얍</button>
+        </form>
+        <div>
+            <p>
+                {% if num == None %}
+                    <h5> 아직 아무 숫자도 입력이 안되었습니다. </h5>
+                {% else %}
+                    <h6> 다시 보니깐 반가워 </h6>
+                {% endif %}
+        </p>
+    </div>
+</body>
+</html>
