@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>데이터베이스 예제 - 장보기 목록</title>
+
+  <style type="text/css">
+	body{ text-align: center; }
+  </style>
+ </head>
+ <body>
+	<h3>장보기 목록</h3>
+	<h4>추가</h4>
+    <form action="/shopping" method ="post">
+        <input type = "submit" value = "쇼 핑" /><br>
+    </form>
+	<form action = "{{ url_for('addrec') }}" method = "POST">
+		품명<br>
+		<input type = "text" name = "item" /></br>
+		수량<br>
+		<input type = "text" name = "num" /><br>
+		예상가격<br>
+		<input type = "text" name = "price" /><br><br>
+		<input type = "submit" value = "추 가" /><br>
+
+	</form>
+	</form>
+ </body>
+</html>
