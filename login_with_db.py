@@ -19,15 +19,16 @@ cur = con.cursor()
 # SQL 쿼리 실행
 # CREATE TABLE 테이블명(변수명 변수 자료형, )
 try:
-    cur.execute("CREATE TABLE namgil(ID  text PRIMARY KEY , PW text)")
+    cur.execute("CREATE TABLE namgil(ID  text PRIMARY KEY , PW text, MONEY text)")
     con.commit()
 # Connection 닫기
     con.close()
 except:
-    print("alreday db")
-
+    print("already db")
+temp_id = None
 @app.route('/', methods=['GET', 'POST'])
 def login():
+    global temp_id
     error = None
     if not session.get('logged_in'):
         if request.method == 'POST':
@@ -53,6 +54,7 @@ def login():
                 if rows[0][1] == login_pwd:
                     print("Sucees Login")
                     session['logged_in'] = True
+                    temp_id = login_id
                     return redirect(url_for('addrec'))
             except:
                 print("Fail Login")
@@ -76,8 +78,8 @@ def sing_up():
             return render_template('join.html')
         # make execute
         try:
-            execute = "INSERT INTO namgil(ID, PW)VALUES(?,?)"
-            cur.execute(execute, (want_id, want_pwd))
+            execute = "INSERT INTO namgil(ID, PW, MONEY)VALUES(?,?,?)"
+            cur.execute(execute, (want_id, want_pwd, 10000))
             print("Success Join")
             con.commit()
             con.close()
@@ -135,6 +137,33 @@ def addrec():
 
         return render_template("shopping_add_result.html", message=msg)
 
+@app.route('/pay', methods=['POST'])
+def pay():
+    global temp_id
+    print("temp_id", temp_id)
+
+    con = sqlite3.connect("join_info.db")
+    cur = con.cursor()
+
+    test = "SELECT * FROM namgil where ID =(?)"
+    cur.execute(test, [temp_id])
+    rows = cur.fetchall()
+    con.commit()
+    con.close()
+    print("rows", rows)
+
+    con = sqlite3.connect("database.db")
+    con.row_factory = sqlite3.Row
+    cur = con.cursor()
+    cur.execute("select * from shopping")
+    rows = cur.fetchall()
+    #                cur.execute("INSERT INTO shopping (item, num, price) VALUES (?, ? ,?)", (item, num, price))
+
+    for row in rows:
+        print("row item ", row['item'])
+        print('row num', row['num'])
+        print('row price', row['price'])
+    #if rows[0][2] >
+
 if __name__ == '__main__':
     app.run()
-
